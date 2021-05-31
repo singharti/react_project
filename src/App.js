@@ -1,13 +1,21 @@
 import logo from './logo.svg';
 import Navbar from "./components/Navbar"
-import Carousel from './components/Carousel';
+import Carousel from './components/Carousel'
 import Login from "./components/Login"
+import Cakelist from './components/Cakelist';
+
 
 
 var details = {
-  projectname:"Cake shop",
-  projectdetails:"Cake Deatils"
+  projectname:"Sprinkles Bakery",
+  home:"Home",
+  about:"About",
+  product:"Products",
+  contact :"Contact Us"
 }
+
+
+
 
 function App(){
 
@@ -16,6 +24,7 @@ function App(){
        <Navbar details= {details}></Navbar>
       <Carousel></Carousel>
       <Login></Login>
+      <Cakelist></Cakelist>
     </div>
   )
 }
