@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { useState } from "react";
 import axios from 'axios';
+import { Link, withRouter } from "react-router-dom"
 class Signup extends Component {
 
 	constructor(props) {
@@ -111,35 +112,91 @@ class Signup extends Component {
 
 	render() {
 		return (
-			<div className="container">
-				
+			// <div className="container">
 
-				<div className="row m-5">
-					<div className="col-md-12">
-						<div className="form-group">
-							<label>Name</label>
-							<input className="form-control mr-sm-2" type="text" placeholder="Enter Name" onChange={this.verifyName} />
-							<label>{this.state.error_name_msg}</label>
-						</div>
-					</div>
-					<div className="col-md-12">
-						<div className="form-group">
-							<label>Email</label>
-							<input className="form-control mr-sm-2" type="text" placeholder="Enter Email" onChange={this.verifyEmail} />
-							<label>{this.state.error_msg}</label>
 
-						</div>
-					</div>
-					<div className="col-md-12">
-						<div className="form-group">
-							<label>Password</label>
-							<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
-							<label>{this.state.error_password_msg}</label>
+			// 	<div className="row m-5">
+			// 		<div className="col-md-12">
+			// 			<div className="form-group">
+			// 				<label>Name</label>
+			// 				<input className="form-control mr-sm-2" type="text" placeholder="Enter Name" onChange={this.verifyName} />
+			// 				<label>{this.state.error_name_msg}</label>
+			// 			</div>
+			// 		</div>
+			// 		<div className="col-md-12">
+			// 			<div className="form-group">
+			// 				<label>Email</label>
+			// 				<input className="form-control mr-sm-2" type="text" placeholder="Enter Email" onChange={this.verifyEmail} />
+			// 				<label>{this.state.error_msg}</label>
 
-						</div>
+			// 			</div>
+			// 		</div>
+			// 		<div className="col-md-12">
+			// 			<div className="form-group">
+			// 				<label>Password</label>
+			// 				<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
+			// 				<label>{this.state.error_password_msg}</label>
+
+			// 			</div>
+			// 		</div>
+			// 		<div className="col-xs-12 col-sm-12 col-md-12 text-center">
+			// 			<button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={this.validation}>Submit</button>
+			// 		</div>
+			// 	</div>
+			// </div>
+
+			<div className="container" style={{ width: '750px', margin: "0 auto" }}>
+				<div className="row " style={{
+					width: "100vw",
+					position: "relative",
+					marginLeft: "-50vw",
+					height: "100px",
+					marginTop: " 100px",
+					left: "50%"
+				}} >
+
+					<div className="col-md-6 p-2 " >
+						<img src="/cake.jpg" className="d-block w-100 " style={{ height: "400px" }} alt="..." />
 					</div>
-					<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-						<button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={this.validation}>Submit</button>
+					<hr></hr>
+					<div className="col-md-6">
+						<div className="col-md-12" style={{ fontFamily: "Bradley Hand, cursive" }}><h2>Create New Account</h2></div>
+						<div className="col-md-12">
+							<div className="form-group">
+
+								<input className="form-control mr-sm-2" type="text" placeholder="Enter Name" onChange={this.verifyName} />
+								<label>{this.state.error_name_msg}</label>
+
+							</div>
+						</div>
+						<div className="col-md-12">
+							<div className="form-group">
+								<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
+								<label>{this.state.error_password_msg}</label>
+
+							</div>
+						</div>
+						<div className="col-md-12">
+							<div className="form-group">
+								<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
+								<label>{this.state.error_password_msg}</label>
+							</div>
+						</div>
+
+						{/* <div className="container-login100-form-btn">
+			<button className="login100-form-btn">
+				Login
+		</button>
+		</div> */}
+						<div className="col-xs-12 col-sm-12 col-md-12 text-center">
+							<a className="btn btn-info " style={{ width: " 100%" }} type="submit"  onClick={this.validation}>SIGN UP</a>
+						</div>
+						<br></br>
+						
+						<div className="col-xs-12 col-sm-12 col-md-12 text-center">
+						<Link to="/login">	<a className="" style={{ float: "right" }} >Already have an account? Log in</a></Link>
+						</div>
+						
 					</div>
 				</div>
 			</div>

@@ -5,16 +5,22 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from './component/Home.js';
 import Pagenotfound from './component/Pagenotfound.js'
-// import './Style.css'
+import Cart from "./component/Cart"
+import Checkout from "./component/Checkout"
+import Logout from "./component/Logout"
 import Search from './component/Search.js'
 import CakeDetails from './component/CakeDetails.js'
 
 function App() {
 	var [login, setLogin] = useState(false)
-	var myphone = () => {
-		setLogin(true);
-
+	var [user, setUser] = useState([])
+	var [token, setToken] = useState(localStorage.getItem("cltoken"))
+	function callme() {
+		setToken(localStorage.getItem("cltoken"));
 	}
+
+	
+
 
 
 	var details = { projectname: "Sprinkles Bakery", home: "Home", about: "About", cake: "Cake", contact: "Contact Us" }
@@ -29,6 +35,9 @@ function App() {
 					<Route exact path="/signup" component={Signup}></Route>
 					<Route exact path="/login" component={Login}></Route>
 					<Route exact path="/search" component={Search}></Route>
+					<Route exact path="/cart"><Cart /></Route>
+					<Route path="/checkout"><Checkout /></Route>
+					<Route exact path="/logout"><Logout parentfun={callme} /></Route>
 					<Route exact path="/cake/:cakeid" component={CakeDetails}></Route>
 
 					<Route exact path="/*" component={Pagenotfound}></Route>

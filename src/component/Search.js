@@ -17,7 +17,8 @@ function Search (props) {
     return (
 		<>
 			
-			{isDataAvailble &&  <h1>Search Listing is : {query.q} </h1>}
+			{isDataAvailble &&  <h3>Search Result : {query.q} </h3>}
+			<hr></hr>
 			{isDataAvailble && 
 			<div className="container">
 				<div className="row">
@@ -28,6 +29,7 @@ function Search (props) {
 			
 			</div>
 			</div> }
+			<hr></hr>
 
 			{!isDataAvailble &&	<h1 className="text-center m-5">No data found for { query.q}</h1>	 }
 		</>
