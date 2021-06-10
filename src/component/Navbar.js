@@ -59,7 +59,7 @@ let Navbar = (prop) => {
 		<nav className="navbar navbar-expand-lg navbar-light bg-light">
 
 			<Link to="/"><a className="navbar-brand" >
-				{/* <img src="/images.webp"  alt="..." /> */}
+			<img style={{ width: "2rem", margin: " 0% 4% 0% 0%" }} src="/logo.png" className="card-img-top text-center" alt="" />
 				{prop.details.projectname}</a>
 			</Link>
 			<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,11 +72,11 @@ let Navbar = (prop) => {
 						<Link to="/"><a className="nav-link">{prop.details.home} </a></Link>
 					</li>
 					<li className="nav-item">
-						<Link to="/"><a className="nav-link" href="#">{prop.details.about}</a></Link>
+						<Link to="/about"><a className="nav-link" >{prop.details.about}</a></Link>
 					</li>
 					<li className="nav-item">
 						
-						<Link to="/cakelist"><a className="nav-link" >{prop.details.cake}</a></Link>
+						<Link to="/product"><a className="nav-link" >{prop.details.cake}</a></Link>
 					</li>
 					<li className="nav-item">
 						<Link to="/"><a className="nav-link" href="#">{prop.details.contact}</a></Link>
@@ -103,3 +103,9 @@ let Navbar = (prop) => {
 }
 
 export default withRouter(Navbar);
+
+// export default connect ((state,props)=>{
+// 	return{
+// 		details.projectname.state.AuthReducer.user
+// 	}
+// })

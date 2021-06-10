@@ -171,9 +171,8 @@ class Signup extends Component {
 						</div>
 						<div className="col-md-12">
 							<div className="form-group">
-								<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
-								<label>{this.state.error_password_msg}</label>
-
+								<input className="form-control mr-sm-2" type="text" placeholder="Enter Email" onChange={this.verifyEmail} />
+								<label>{this.state.error_msg}</label>
 							</div>
 						</div>
 						<div className="col-md-12">
@@ -189,14 +188,14 @@ class Signup extends Component {
 		</button>
 		</div> */}
 						<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-							<a className="btn btn-info " style={{ width: " 100%" }} type="submit"  onClick={this.validation}>SIGN UP</a>
+							<a className="btn btn-info " style={{ width: " 100%" }} type="submit" onClick={this.validation}>SIGN UP</a>
 						</div>
 						<br></br>
-						
+
 						<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-						<Link to="/login">	<a className="" style={{ float: "right" }} >Already have an account? Log in</a></Link>
+							<Link to="/login">	<a className="" style={{ float: "right" }} >Already have an account? Log in</a></Link>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>

@@ -2,6 +2,7 @@ import { Component } from "react";
 import { useState } from "react";
 import axios from 'axios';
 import { Link, withRouter } from "react-router-dom"
+import {connect} from "react-redux"
 class Login extends Component {
 
 	constructor(props) {
@@ -133,5 +134,5 @@ class Login extends Component {
 		)
 	}
 }
-
-export default Login;
+export default Login
+// export default connect()(Login)
