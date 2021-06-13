@@ -2,17 +2,17 @@ import { useState, useEffect } from "react"
 import { Link, withRouter } from "react-router-dom"
 import axios from 'axios';
 import Cakelist from './Cakelist.js';
-
+import {connect} from "react-redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-let Navbar = (prop) => {
+let Navbar = (props) => {
 
-	var [isloggedin, setUser] = useState()
-	useEffect(() => {
-		setUser(prop.isloggedin)
-	},
-		[prop.isloggedin],
-	);
+	// var [isloggedin, setUser] = useState()
+	// useEffect(() => {
+	// 	setUser(props.isloggedin)
+	// },
+	// 	[props.isloggedin],
+	// );
 	let searchstring = '';
 
 	let search = (event) => {
@@ -27,7 +27,7 @@ let Navbar = (prop) => {
 			}
 			).then((response) => {
 
-				prop.history.push({
+				props.history.push({
 					pathname: '/search',
 					search: '?q=' + searchstring,
 					state: response.data
@@ -36,7 +36,7 @@ let Navbar = (prop) => {
 				console.log(error);
 
 			});
-			// prop.history.push('/search?q=' + searchstring);
+			// props.history.push('/search?q=' + searchstring);
 		}
 
 	}
@@ -46,13 +46,34 @@ let Navbar = (prop) => {
 		console.log(searchstring);
 	}
 
-	let logout = () => {
-		// console.log("in logout");
-		setUser(false);
-		localStorage.clear();
-		//prop.isloggedin = false;
-		console.log(" In logout", isloggedin);
-	}
+
+    let logout = () => {
+        props.dispatch({
+            type: "LOGOUT",
+            payload: {
+                token: localStorage.getItem('token')
+            }
+        })
+        props.history.push('/')
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            axios({
+                url: process.env.REACT_APP_API_BASE_URL + '/cakecart',
+                method: 'post'
+            }).then(res => {
+                const cakeList = res.data.data
+                props.dispatch({
+                    type: "SHOW_CART",
+                    payload: {
+                        data: cakeList
+                    }
+                })
+            }, err => {
+            })
+        }
+    }, [])
 
 
 	return (
@@ -60,7 +81,7 @@ let Navbar = (prop) => {
 
 			<Link to="/"><a className="navbar-brand" >
 			<img style={{ width: "2rem", margin: " 0% 4% 0% 0%" }} src="/logo.png" className="card-img-top text-center" alt="" />
-				{prop.details.projectname}</a>
+				{props.details.projectname}</a>
 			</Link>
 			<button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span className="navbar-toggler-icon"></span>
@@ -69,17 +90,17 @@ let Navbar = (prop) => {
 			<div className="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul className="navbar-nav mr-auto">
 					<li className="nav-item active">
-						<Link to="/"><a className="nav-link">{prop.details.home} </a></Link>
+						<Link to="/"><a className="nav-link">{props.details.home} </a></Link>
 					</li>
 					<li className="nav-item">
-						<Link to="/about"><a className="nav-link" >{prop.details.about}</a></Link>
+						<Link to="/about"><a className="nav-link" >{props.details.about}</a></Link>
 					</li>
 					<li className="nav-item">
 						
-						<Link to="/product"><a className="nav-link" >{prop.details.cake}</a></Link>
+						<Link to="/product"><a className="nav-link" >{props.details.cake}</a></Link>
 					</li>
 					<li className="nav-item">
-						<Link to="/"><a className="nav-link" href="#">{prop.details.contact}</a></Link>
+						<Link to="/"><a className="nav-link" href="#">{props.details.contact}</a></Link>
 					</li>
 				</ul>
 				<form className="form-inline col-lg-6">
@@ -92,9 +113,15 @@ let Navbar = (prop) => {
 
 				</form>
 				{/* {!isloggedin && <Link to="/signup"><a><a className="my-2 mr-sm-2">Sign up  / </a></a></Link>} */}
-
-				<Link to="/login"><a className="my-2 mr-sm-2"> Log In  </a></Link>
-				{isloggedin && <button className="btn btn-outline-success" onClick={logout}>Logout</button>}
+				{props.isLoggedIn && <Link to={'/orders'} className="my-2 my-sm-0 ml-sm-1" style={{cursor : 'pointer'}}>Orders</Link>}
+                {props.isLoggedIn && <button className="btn btn-outline-success" onClick={logout}>Logout</button>}
+                {!props.isLoggedIn && <Link to="/login" className="my-2 mr-sm-2">Log In </Link>}
+                {/* {!props.isLoggedIn && <Link to="/signup" className="my-2 my-sm-0 ml-sm-2">Sign Up</Link>} */}
+                {props.isLoggedIn && <Link to="/cart" className="my-2 my-sm-0 ml-sm-2">
+                    <span className="notify-badge">{props.totalItems}</span>
+                    <img src={"./shopping.png"} style={{width:"16%"
+					}} className="d-block" alt="Cart Logo" /> </Link> }
+				 {/* <button className="btn btn-outline-success" onClick={logout}>Logout</button> */}
 			</div>
 		</nav>
 	);
@@ -102,10 +129,11 @@ let Navbar = (prop) => {
 
 }
 
-export default withRouter(Navbar);
-
-// export default connect ((state,props)=>{
-// 	return{
-// 		details.projectname.state.AuthReducer.user
-// 	}
-// })
+export default connect((state, props) => {
+    console.log('state.CartReducer', state.CartReducer);
+    return {
+        username: state.AuthReducer.username,
+        isLoggedIn: state.AuthReducer.isLoggedIn,
+        totalItems: state.CartReducer.totalItems
+    }
+}) (withRouter(Navbar));

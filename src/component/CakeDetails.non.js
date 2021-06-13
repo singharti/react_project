@@ -1,7 +1,6 @@
-import { useParams,withRouter } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Link, useEffect, useState } from 'react'
 import axios from 'axios'
-
 import {connect} from "react-redux";
 import {addCartMiddleware} from "../reduxstore/middlewares";
 
@@ -13,15 +12,15 @@ function CakeDetails(props) {
 	var [ratingWidth, setRatingWidth] = useState(0);
 
 	var [quantity, setQty] = useState(1);
-
+	console.log(cakeData)
 	useEffect(() => {
 		axios({
-			url: process.env.REACT_APP_API_BASE_URL+ '/cake/' + params.cakeid,
+			url: process.env.REACT_APP_API_BASE_URL + params.cakeid,
 			method: 'get',
 			data: JSON
 		}
 		).then((response) => {
-
+			//console.log(response.data.data);
 			setCakeDetails(response.data.data);
 			setLoading(false);
 		}, (error) => {
@@ -31,32 +30,7 @@ function CakeDetails(props) {
 
 	let addToCart = (data) => {
         props.dispatch(addCartMiddleware(data))
-		// if(!localStorage.token){
-		// 	props.history.push('/login')
-		// 	return false;
-		// }
-		// axios({
-		// 	url: "https://apifromashu.herokuapp.com/api" +'/addcaketocart',
-		// 	method:"post",
-		// 	data: { 
-		// 		'cakeid':cakeData.cakeid,
-		// 		'name': cakeData.name, 
-		// 		'image': cakeData.image,
-		// 		'price':cakeData.price,
-		// 		'weight':cakeData.weight
-		// 	 },
-		// 	 headers:{
-		// 		 authtoken:localStorage.token
-		// 	 }
-
-		// }).then((response)=>{
-		// 	props.dispatch({
-		// 		type:"ADDTOCART",
-		// 		payload:response.data
-		// 	})
-		// 	props.history.push('/cart')
-
-		// },(error)=>{})
+		
     }
 
 
@@ -119,7 +93,7 @@ function CakeDetails(props) {
 								<div className="col-lg-12 mt-3">
 									<div className="row">
 										<div className="col-lg-12 pb-2">
-											<a  className="btn btn-info w-100" onClick={ () => addToCart(cakeData)}>Add To Cart</a>
+											<a  className="btn btn-info w-100" onClick={addToCart}>Add To Cart</a>
 										</div>
 									</div>
 								</div>
@@ -139,7 +113,7 @@ function CakeDetails(props) {
 					</div> */}
 				{/* {!cakeData.name && <div className="m-0 pl-3 pt-0 pb-3">Loading .....</div>}
 					{cakeData.name &&
-
+						
 					} */}
 
 			</div>
@@ -151,11 +125,4 @@ function CakeDetails(props) {
 	)
 }
 
-CakeDetails = connect(function (state, props){
-    if (state.CartReducer.success) {
-        props.history.push('/cart')
-        state.CartReducer.success = false
-    }
-})(CakeDetails);
-
-export default withRouter(CakeDetails)
+export default connect()(CakeDetails);
