@@ -1,7 +1,5 @@
 import WhatWeDo from './WhatWeDo.js';
 
-
-
 function About() {
     return (
         <div style={{ fontFamily: "URW Chancery L, cursive" }}>

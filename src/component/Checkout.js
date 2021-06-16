@@ -1,65 +1,95 @@
-import { Link, Route, Redirect } from "react-router-dom"
-import React from "react"
-import Summary from "./Summary"
-import Address from "./Address"
-import Confirm from "./Confirm"
+import '../cart.css';
+import {Link, Route} from "react-router-dom";
+import Summary from "./Summary";
+import Address from "./Address";
+import Confirm from "./Confirm";
+import {useState} from "react";
+import {connect} from "react-redux";
+import {placeOrderMiddleware} from "../reduxstore/middlewares";
+import {withRouter} from "react-router-dom";
 
-function Checkout() {
-	return (
-		<div>
-			<div className="mt-4 container" style={{ fontFamily: "URW Chancery L, cursive" }}>
-				<div className="row">
-					<div className="col-12">
-					<h2 style={{ textAlign: "center" }}>
-										Review Your Order & Complete Checkout
-                    </h2>
-					</div>
-				</div>
-				<div className=" bd-example bd-example-tabs">
-					<div className="row checkout-row">
-						<div className="col-3 bg-warning text-black">
-							<div className="nav flex-column p-3 nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-								<Link to="/checkout/summary" className="text-decoration-none border p-2 text-white">Summary</Link>
-								<Link to="/checkout/address" className="text-decoration-none border p-2 text-white">Address</Link>
-								<Link to="/checkout/payment" className="text-decoration-none border p-2 text-white">Payment</Link>
-							</div>
-						</div>
-						<div className="col-9   bg-light">
-							<div id='mainContentWrapper'>
-								<div className="col-md-8 col-md-offset-2">
-									
-									
-									<div className="shopping_cart">
-										<form className="form-horizontal" role="form" action="" method="post" id="payment-form">
-											<Route exact path="/checkout" ><Redirect to="/checkout/summary" /></Route>
-											<Route exact path="/checkout/summary" component={Summary} />
-											<Route exact path="/checkout/address" component={Address} />
-											<Route exact path="/checkout/payment" component={Confirm} />
+let Checkout = (props) => {
+    var [isloading, setLoading] = useState(true);
+    const [disableAddressLink, setDisableAddressLink] = useState(true)
+    const [disablePaymentLink, setDisablePaymentLink] = useState(true)
+    const data = {}
+    let totalPrice = 0;
 
+    const handleAddressLink = () => {
+        setDisableAddressLink(false)
+    }
 
-										</form>
-									</div>
-								</div>
-							</div>
-							<div className="tab-content p-3" id="v-pills-tabContent">
+    const handlePaymentLink = () => {
+        setDisablePaymentLink(false)
+    }
+	var isDataAvailble = disableAddressLink  ? true : false;
+ 
+    const handleAddressSubmit = (value) => {
+        value = value.split("_")
+        data.address = value[0]
+        data.city = value[1]
+        data.pincode = value[2]
+        data.phone = value[3]
+        props.cakes.map((each, index) => {
+            totalPrice += each.price
+            return totalPrice
+        })
+        data.name = (JSON.parse(localStorage.getItem('userData'))).name
+        data.price = totalPrice
+        data.cakes = props.cakes
 
-								{/* <Route exact path="/checkout/confirm" component={Confirm}/> */}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+        props.dispatch(placeOrderMiddleware(data))
+    }
 
+ 
 
-			<div className='container'>
-				<div className='row' style={{ paddingTop: "25px", paddingBottom: "25px" }}>
-					<div className='col-md-12'>
+    return (
+        <div className="container"  style={{ fontFamily: "URW Chancery L, cursive",marginTop:"100px" }}>
+            {/* {
+				isloading ? (<div id="loadingImage">
+					<img src="ajax-loader.gif" />
+				</div>) : ''
+			} */}
+             <h1 className="text-center m-5">Checkout </h1>
+            
+           
+            <div className="row">
+               
+                <ul className="nav nav-tabs" style={{width: '100%'}}>
+                    <li className="nav-item" style={{width: '50%'}}>
+                        <Link className={"nav-link " + (disableAddressLink ? "active" : "")} aria-current="page" to={'/checkout'}>Order Summary</Link>
+                    </li>
+                    <li className="nav-item" style={{width: '50%'}}>
+                        {
+                            !disableAddressLink
+                            ? <Link className={"nav-link " + (disablePaymentLink ? "active" : "")} to={'/checkout/address'}>Address Details</Link>
+                                : <Link className="nav-link disabled" to={'/checkout/address'} tabIndex="-1" aria-disabled="true">Address Details</Link>
+                        }
+                    </li>
+                   
+                </ul>
+                <div className="card" style={{width: '100%'}}>
+                    <div className="card-body">
+                        <Route exact path="/checkout"><Summary disableAddressLink={disableAddressLink} onChange={handleAddressLink} /></Route>
+                        <Route exact path="/checkout/address"><Address disablePaymentLink={disablePaymentLink} onChange={handlePaymentLink} onSubmit={handleAddressSubmit} /></Route>
+                        {/*<Route exact path="/checkout/confirm"><Confirm data={data} onSubmit={placeOrder} /></Route>*/}
+                    </div>
+                </div>
+            </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
-	)
+        </div>
+    )
 }
 
-export default Checkout;
+Checkout = connect(function (state, props) {
+    if(state.CartReducer.success) {
+        props.history.push('/orders')
+        state.CartReducer.success = false
+    }
+    return {
+        cakes: state.CartReducer.cart
+    }
+}) (Checkout)
+
+export default withRouter(Checkout)
+

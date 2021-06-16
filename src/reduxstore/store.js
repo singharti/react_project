@@ -1,40 +1,22 @@
-// import { combineReducers, createStore,applyMiddleware } from "redux"
-// import AuthReducer from "./AuthReducer"
-// import CartReducer from "./CartReducer"
+import {createStore, combineReducers, applyMiddleware} from "redux";
+import AuthReducer from "./Authreducer";
+import CartReducer from "./CartReducer";
+import thunk from "redux-thunk";
+import createSaga from "redux-saga"
+import MainSaga from "./sagas";
 
 
-
-// // let middles=store=>next =>action =>{
-// //     alert(JSON.stringify(store.getState()))
-// //     next(action)
-// // }
-
-// // var reducers = combineReducers({AuthReducer,CartReducer})
-
-// let store = createStore(AuthReducer)
-
-// export default store
-
-// // store.despatch({
-// //     type: "LAPTOP_STOCK"
-// // })
-// // console.log(store.getStore)
-
-import {createStore , combineReducers , applyMiddleware} from "redux"
-import AuthReducer from "./Authreducer"
-import CartReducer from "./CartReducer"
-import thunk from "redux-thunk"
-
-
-let middle=store=>next =>action => {
-    // alert(JSON.stringify(store.getState()))
-
+let middle = store => next => action => {
+    let currentDate = new Date()
+    console.log(JSON.stringify(action.type) , 'action is dispatched at: ', currentDate)
     next(action)
 }
-var reducers = combineReducers({AuthReducer ,CartReducer})
 
-console.log("middle is " , applyMiddleware(middle,thunk))
+let sagMiddleware = createSaga()
 
-let store  =  createStore(reducers, applyMiddleware(middle,thunk))
+let reducers = combineReducers({AuthReducer, CartReducer})
+let store = createStore(reducers, applyMiddleware(middle, thunk, sagMiddleware))
+
+sagMiddleware.run(MainSaga)
 
 export default store

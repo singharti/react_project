@@ -12,49 +12,37 @@ import Search from './component/Search.js'
 import CakeDetails from './component/CakeDetails.js'
 import Cakelist from "./component/Cakelist.js";
 import About from "./component/About.js";
+
+import Dashboard from "./component/Dashboard"
+import Admin from "./component/AdminLogin"
+import AdminDashboard from "./component/Admin/AdminDashboard"
 import axios from "axios";
+
+import Orders from "./component/Orders";
 function App() {
-	console.log(process.env)
+	var [isLogedin, setislogin] = useState(false);
+	function myFun() {
+	  setislogin(true);
+	}
 	const token = localStorage.getItem('token');
-    const [text, setLogin] = useState(false);
+	const [text, setLogin] = useState(false);
 
-    const loggedIn = () => {
-        setLogin(true);
-    }
+	const loggedIn = () => {
+		setLogin(true);
+	}
 
-    axios.interceptors.request.use((request) => {
-        request.headers["authtoken"] = localStorage.getItem('token')
-        return request
-    })
-	
-	
-	// useEffect(()=>{
-		
-	// 	var base_api_url=process.env.REACT_APP_BASE_URL
-	// 	if(token){
-	// 		axios({url:base_api_url+"getuserdetails",method:"get",headers:{authtoken:token}}).then((response)=>{
-	// 		if(response.data.data){
-	// 			setUser(response.data.data)
-	// 		}
-	// 	},(error)=>{})
-	// 	}else{
-	// 		setUser([])
-	// 	}
-	// },[token])
-	// function callme() {
-	// 	setToken(localStorage.getItem("cltoken"));
-	// }
+	axios.interceptors.request.use((request) => {
+		request.headers["authtoken"] = localStorage.getItem('token')
+		return request
+	})
 
-	
-
-
-
-	var details = { projectname: "Sprinkles Bakery", home: "Home", about: "About", cake: "Cake", contact: "Contact Us" }
+	var details = { projectname: "Sprinkles Bakery", home: "HOME", about: "ABOUT", cake: "CAKE", order:"ORDERS",contact: "CONTACT" }
 	return (
 		<div className="App">
 
+
 			<Router>
-				<Navbar  details={details}></Navbar>
+				<Navbar details={details}></Navbar>
 				<Switch>
 					<Route exact path="/"><Home /> </Route>
 					<Route exact path="/signup" component={Signup}></Route>
@@ -65,12 +53,17 @@ function App() {
 					<Route path="/checkout"><Checkout /></Route>
 					<Route path="/about"><About /></Route>
 					<Route path="/product"><Cakelist /></Route>
-					<Route exact path="/logout"><Logout  /></Route>
+					<Route exact path="/logout"><Logout /></Route>
 					<Route exact path="/cake/:cakeid" component={CakeDetails}></Route>
-
+					<Route exact path="/orders" component={Orders} />
+					{/* <Route exact path="/admin" component={Admin} /> */}
+					<Route path='/dashboard' component={Dashboard}></Route>
+					<Route path='/admin' component={Admin}></Route>
+					<Route path='/admindashboard' component={AdminDashboard}></Route>
 					<Route exact path="/*" component={Pagenotfound}></Route>
 
 				</Switch>
+			
 			</Router>
 
 

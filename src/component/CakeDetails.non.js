@@ -12,7 +12,7 @@ function CakeDetails(props) {
 	var [ratingWidth, setRatingWidth] = useState(0);
 
 	var [quantity, setQty] = useState(1);
-	console.log(cakeData)
+	
 	useEffect(() => {
 		axios({
 			url: process.env.REACT_APP_API_BASE_URL + params.cakeid,
@@ -20,7 +20,7 @@ function CakeDetails(props) {
 			data: JSON
 		}
 		).then((response) => {
-			//console.log(response.data.data);
+		
 			setCakeDetails(response.data.data);
 			setLoading(false);
 		}, (error) => {
@@ -86,10 +86,7 @@ function CakeDetails(props) {
 
 									</div>
 								</div>
-								{/* <div className="col-lg-12">
-									<h6>Quantity :</h6>
-
-								</div> */}
+								
 								<div className="col-lg-12 mt-3">
 									<div className="row">
 										<div className="col-lg-12 pb-2">
@@ -101,20 +98,7 @@ function CakeDetails(props) {
 						</div>
 					</div>
 				</div>
-				{/* <div className="container">
-					<div className="row hedding m-0 pl-3 pt-0 pb-3">
-						<nav>
-							<ol className="breadcrumb">
-								<li className="breadcrumb-item"><Link to="/">Home</Link></li>
-								<li className="breadcrumb-item"><Link to="#">Cakes</Link></li>
-								{cakeData.name && <li className="breadcrumb-item active"></li>}
-							</ol>
-						</nav>
-					</div> */}
-				{/* {!cakeData.name && <div className="m-0 pl-3 pt-0 pb-3">Loading .....</div>}
-					{cakeData.name &&
-						
-					} */}
+			
 
 			</div>
 		</div>

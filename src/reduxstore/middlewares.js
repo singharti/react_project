@@ -40,8 +40,7 @@ export const addCartMiddleware = (data) => {
                     data: res.data.data
                 }
             })
-            console.log(data,"ssrr",dispatch)
-            // props.history.push("/cart")
+           
         }, err => {alert('here')})
     }
 }
@@ -49,10 +48,10 @@ export const addCartMiddleware = (data) => {
 export const emptyCartMiddleware = () => {
     return function (dispatch) {
         axios({
-            url: process.env.REACT_APP_API_BASE_URL + '/emptycart',
+            url: process.env.REACT_APP_API_BASE_URL +  '/clearcart',
             method: 'post'
         }).then(res => {
-            console.log('empty res', res)
+           
             dispatch({
                 type: 'EMPTY_CART',
                 payload : {
@@ -70,7 +69,7 @@ export const removeOneCakeFromCartMiddleware = (cakeId) => {
             method: 'post',
             data: {cakeid: cakeId}
         }).then(res => {
-            console.log(res.data)
+           
             dispatch({
                 type: 'REMOVE_ONE_FROM_CART',
                 payload: {
@@ -98,14 +97,16 @@ export const removeCakeFromCartMiddleware = (cakeId) => {
     }
 }
 
+
+
 export const placeOrderMiddleware = (data) => {
     return function (dispatch) {
         axios({
-            url: process.env.REACT_APP_API_BASE_URL + '/addorder',
+            url: process.env.REACT_APP_API_BASE_URL + '/addcakeorder',
             method: 'post',
             data: data
         }).then(res => {
-           
+          
             dispatch({
                 type: 'PLACE_ORDER',
                 payload: {
@@ -115,3 +116,69 @@ export const placeOrderMiddleware = (data) => {
         }, err => {})
     }
 }
+
+export const adminloginmiddleware = (data) => {
+  
+    return function (dispatch) {
+        axios({
+            url: process.env.REACT_APP_API_BASE_URL +'/login',
+            method: 'post',
+            data: {email: data.email, password: data.password}
+        }).then(res => {
+            if (res.data.email) {
+                localStorage.setItem('token', res.data.token)
+                localStorage.setItem('userData', JSON.stringify(res.data))
+                localStorage.setItem('adminData', true)
+               
+                dispatch({
+                    type: "ADMIN_LOGIN",
+                    payload: {
+                        token: res.data.token,
+                        username: res.data.name
+                    }
+                })
+            }
+        }, err => {
+            dispatch({
+                type: "LOGIN_FAIL"
+            })
+        })
+    }
+}
+
+export const adminAddCakeMiddleware = (data) => {
+  
+    return function (dispatch) {
+        axios({
+            url: process.env.REACT_APP_API_BASE_URL +'/addcake',
+            method: 'post',
+            data: { image: data.image,
+                name: data.name,
+                description: data.description,
+                price: data.price,
+                weight: data.weight,
+                type: data.type,
+                flavour: data.flavour,
+                eggless: data.eggless,
+             
+                ingredients: data.ingredients}
+        }).then(res => {
+            if (res.data.email) {
+               
+               
+                dispatch({
+                    type: "CAKE_STORE",
+                    payload: {
+                        token: res.data.token,
+                        username: res.data.name
+                    }
+                })
+            }
+        }, err => {
+            dispatch({
+                type: "LOGIN_FAIL"
+            })
+        })
+    }
+}
+

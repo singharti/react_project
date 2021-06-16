@@ -10,8 +10,6 @@ function CakeHome(props) {
                
                 <div className="card-body">
                     <img style={{ height: "10rem" }} src={props.data.image} className="card-img-top" alt=".." />
-                    {/* <h5 className="card-title text-center"> {props.data.name}</h5> */}
-                  
 
                 </div>
             </div>

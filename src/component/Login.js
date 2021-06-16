@@ -53,6 +53,11 @@ class Login extends Component {
         const { errors } = this.state;
         return (
             <div className="container" style={{ width: '750px', margin: "0 auto" }}>
+                {/* {
+                    props.isLoggedIn? (<div id="loadingImage">
+                        <img src="ajax-loader.gif" />
+                    </div>) : ''
+                } */}
                 <div className="row " style={{
                     width: "100vw",
                     position: "relative",
@@ -81,10 +86,10 @@ class Login extends Component {
                                         <span className='error'>{errors.password}</span>}
                                 </div>
                                 <div className="col-xs-12 col-sm-12 col-md-12 text-center">
-                                <button type="submit"  style={{ width: " 100%" }}  className="form-control btn btn-info ">Log In</button>
+                                    <button type="submit" style={{ width: " 100%" }} className="form-control btn btn-info ">Log In</button>
                                 </div>
                                 <br></br>
-                               
+
                             </form>
                         </div>
                         <div className="col-xs-12 col-sm-12 col-md-12 text-center">

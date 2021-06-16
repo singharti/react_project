@@ -1,5 +1,5 @@
 import { Link, withRouter } from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import {
     addCartMiddleware,
@@ -39,14 +39,17 @@ function CartList(props) {
                 <div className="pl-md-0 pl-1 product-removal">
                     <button className="add-product" onClick={() => addOneCakeToCart(props.data)}> Add</button>
                 </div>
-              
+
                 <div className="pl-md-0 pl-1 product-removal">
                     <button className="remove-product" onClick={() => removeOneCakeFromCart(props.data.cakeid)}> Remove</button>
                 </div>
 
                 { props.page === 'cart' &&
 
-                    <div ><a className="close" onClick={() => removeCakeFromCart(props.data.cakeid)}> &times;</a></div>
+                    <div >
+                        <a className="close" onClick={() => removeCakeFromCart(props.data.cakeid)}><span>
+                        <FontAwesomeIcon icon="trash" />
+                    </span></a></div>
 
                 }
 

@@ -16,7 +16,7 @@ class Signup extends Component {
 			error_name_msg: '',
 			error_password_msg: ''
 		}
-		console.log();
+		
 	}
 	like = () => {
 		this.setState({
@@ -66,7 +66,7 @@ class Signup extends Component {
 				});
 			}
 		}
-		console.log(userName, password, checkEmail);
+		
 		//return false;
 		if (userName != '' && password != '' && checkEmail != '') {
 			axios({
@@ -112,39 +112,7 @@ class Signup extends Component {
 
 	render() {
 		return (
-			// <div className="container">
-
-
-			// 	<div className="row m-5">
-			// 		<div className="col-md-12">
-			// 			<div className="form-group">
-			// 				<label>Name</label>
-			// 				<input className="form-control mr-sm-2" type="text" placeholder="Enter Name" onChange={this.verifyName} />
-			// 				<label>{this.state.error_name_msg}</label>
-			// 			</div>
-			// 		</div>
-			// 		<div className="col-md-12">
-			// 			<div className="form-group">
-			// 				<label>Email</label>
-			// 				<input className="form-control mr-sm-2" type="text" placeholder="Enter Email" onChange={this.verifyEmail} />
-			// 				<label>{this.state.error_msg}</label>
-
-			// 			</div>
-			// 		</div>
-			// 		<div className="col-md-12">
-			// 			<div className="form-group">
-			// 				<label>Password</label>
-			// 				<input className="form-control mr-sm-2" type="password" placeholder="Enter Password" onChange={this.verifyPassword} />
-			// 				<label>{this.state.error_password_msg}</label>
-
-			// 			</div>
-			// 		</div>
-			// 		<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-			// 			<button className="btn btn-outline-success my-2 my-sm-0" type="submit" onClick={this.validation}>Submit</button>
-			// 		</div>
-			// 	</div>
-			// </div>
-
+			
 			<div className="container" style={{ width: '750px', margin: "0 auto" }}>
 				<div className="row " style={{
 					width: "100vw",

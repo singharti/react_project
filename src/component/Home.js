@@ -2,10 +2,10 @@ import Carousel from './Carousel.js';
 import Cake from './CakeHome.js';
 import Cakelist from './Cakelist.js';
 import cakes from './data';
-// import './style.css';
+import Footer from './Footer'
 
 function Home(props) {
-
+	var details = { projectname: "Sprinkles Bakery", home: "Home", about: "About", cake: "Cake", contact: "Contact" }
 
 	return (
 		<div style={{ fontFamily:"URW Chancery L, cursive" }}>
@@ -24,8 +24,9 @@ function Home(props) {
 				</div>
 			</div>
 			<hr></hr>
-			<h2 className="text-center" >Products</h2>
-			<Cakelist />
+			<Footer details={details}></Footer>
+			
+			
 		</div>
 	)
 }
